@@ -2,7 +2,7 @@
     <v-row justify="center">
         <v-dialog persistent max-width="400px" v-model="dialog">
             <template v-slot:activator= "{ on, attrs}">
-                <v-btn icon v-bind="attrs" v-on="on">
+                <v-btn icon v-bind="attrs" v-on="on" :disabled="todo.status == 'Completed'">
                     <v-icon>mdi-clipboard-clock</v-icon>
                 </v-btn>
             </template>

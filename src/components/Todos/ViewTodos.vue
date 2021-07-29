@@ -15,7 +15,7 @@
                 <div class="text-overline mb-4">
                 ID: {{todo.id}}
                 </div>
-                <v-list-item-title class="text-h5 mb-2">
+                <v-list-item-title class="text-h6 mb-2">
                 {{todo.title}}
                 </v-list-item-title>
                 <v-list-item-subtitle class="mb-1 deep-orange--text text-darken-4 font-weight-bold">
@@ -24,7 +24,6 @@
                 <v-list-item-subtitle>{{todo.description}}</v-list-item-subtitle>
                 <!-- <v-list-item-title class="mt-2 text-subtitle-1"><span class="blue--text text--darken-4 font-weight-bold">Status: </span>{{todo.status}}</v-list-item-title> -->
             </v-list-item-content>
-            
             <div class="mr-8">
                 <template>
                     <app-edit-todo :todo="todo"></app-edit-todo>
@@ -41,19 +40,38 @@
                 </template>
             </div>
             <div>
-                <v-icon class="mr-5" v-if="todo.status == 'Completed'">mdi-clipboard-check</v-icon>
-            </div>
-            <div>
                 <v-icon class="mr-2" style="cursor: pointer;" @click="deleteTodo(todo.id)">mdi-delete</v-icon>
             </div>
             <v-alert type="warning" v-if="showAlert.id == todo.id && showAlert.show" class="mt-3">
                     <v-spacer></v-spacer>
                     Deleting Todo <v-progress-circular indeterminate color="red"></v-progress-circular>
             </v-alert>
+            <div>
+                <v-menu
+        bottom
+        offset-y
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon
+            class="ma-2"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon class="mr-5" v-if="todo.status == 'Completed'">mdi-clipboard-check</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title><v-btn @click="reOpenTodo(todo.id)">ReOpen Todo</v-btn></v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+            </div>
+            
             </v-list-item>
 
             <v-card-actions class="col-md-3">
-            <v-select label="Change Current Status" dense outlined :items="items" v-model="todo.status" @input="changeStatus(todo.status, todo.id)" color="deep-orange"></v-select>
+            <v-select label="Change Current Status" dense outlined :items="items" v-model="todo.status" :disabled="todo.status == 'Completed'" @input="changeStatus(todo.status, todo.id)" color="deep-orange"></v-select>
             </v-card-actions>
         </v-card>
       </v-flex>
@@ -95,6 +113,9 @@ export default ({
             } else if (todoStatus === 'Completed') {
                 return this.colors[2];
             }
+        },
+        reOpenTodo(todoId) {
+            this.$store.dispatch('changeTodoStatus', {status: 'Ongoing', id: todoId});
         }
     }
 });
