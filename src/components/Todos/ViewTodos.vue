@@ -47,30 +47,23 @@
                     Deleting Todo <v-progress-circular indeterminate color="red"></v-progress-circular>
             </v-alert>
             <div>
-                <v-menu
-        bottom
-        offset-y
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon
-            class="ma-2"
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon class="mr-5" v-if="todo.status == 'Completed'">mdi-clipboard-check</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item>
-            <v-list-item-title><v-btn @click="reOpenTodo(todo.id)">ReOpen Todo</v-btn></v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+            <v-menu bottom offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                <v-btn icon class="ma-2" v-bind="attrs" v-on="on">
+                    <v-icon class="mr-5" v-if="todo.status == 'Completed'">mdi-clipboard-check</v-icon>
+                </v-btn>
+                </template>
+                <v-list>
+                <v-list-item>
+                    <v-list-item-title><v-btn @click="reOpenTodo(todo.id)">ReOpen Todo</v-btn></v-list-item-title>
+                </v-list-item>
+                </v-list>
+            </v-menu>
             </div>
             
             </v-list-item>
 
-            <v-card-actions class="col-md-3">
+            <v-card-actions class="col-6">
             <v-select label="Change Current Status" dense outlined :items="items" v-model="todo.status" :disabled="todo.status == 'Completed'" @input="changeStatus(todo.status, todo.id)" color="deep-orange"></v-select>
             </v-card-actions>
         </v-card>
