@@ -47,7 +47,7 @@
                     Deleting Todo <v-progress-circular indeterminate color="red"></v-progress-circular>
             </v-alert>
             <div>
-            <v-menu bottom offset-y>
+            <v-menu bottom offset-y v-if="todo.status == 'Completed'">
                 <template v-slot:activator="{ on, attrs }">
                 <v-btn icon class="ma-2" v-bind="attrs" v-on="on">
                     <v-icon class="mr-5" v-if="todo.status == 'Completed'">mdi-clipboard-check</v-icon>
